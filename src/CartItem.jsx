@@ -9,28 +9,44 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
- 
-  };
+  return cart.reduce((total, item) => {
+    return total + (item.cost * item.quantity);
+  }, 0).toFixed(2); // To format it to 2 decimal places
+};
 
   const handleContinueShopping = (e) => {
+    alert("Functionality to be added for future reference");
    
   };
 
 
 
   const handleIncrement = (item) => {
-  };
+  dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
+};
 
-  const handleDecrement = (item) => {
-   
-  };
+const handleDecrement = (item) => {
+  if (item.quantity > 1) {
+    // Decrease quantity if it's above 1
+    dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
+  } else {
+    // Remove item if quantity would drop to 0
+    dispatch(removeItem(item.name));
+  }
+};
+
 
   const handleRemove = (item) => {
-  };
+  dispatch(removeItem(item.name));
+};
+
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-  };
+  const unitPrice = parseFloat(item.cost.substring(1));  // Extract numeric value (removes "$")
+  return (unitPrice * item.quantity).toFixed(2);  // Multiply by quantity and format to 2 decimals
+};
+
 
   return (
     <div className="cart-container">
